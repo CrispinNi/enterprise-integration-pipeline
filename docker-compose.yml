@@ -1,0 +1,78 @@
+version: "5.0.2"
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------- MOCK APIs ----------
+  crm-service:
+    build: ./systems/crm-service
+    ports:
+      - "8001:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  inventory-service:
+    build: ./systems/inventory-service
+    ports:
+      - "8002:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  analytics-service:
+    build: ./systems/analytics-service
+    ports:
+      - "8003:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------- PRODUCERS ----------
+  customer-producer-service:
+    build: ./producers/customer-producer-service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      crm-service:
+        condition: service_healthy
+    environment:
+      CRM_BASE_URL: http://crm-service:8000
+      RABBITMQ_HOST: rabbitmq
+
+  inventory-producer-service:
+    build: ./producers/inventory-producer-service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      inventory-service:
+        condition: service_healthy
+    environment:
+      INVENTORY_BASE_URL: http://inventory-service:8000
+      RABBITMQ_HOST: rabbitmq
+
+  # ---------- CONSUMER ----------
+  analytics-consumer-service:
+    build: ./consumers/consumer-service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      QUEUE_NAME: analytics.events

@@ -1,0 +1,13 @@
+target/
+*.log
+
+__pycache__/
+*.pyc
+.venv/
+
+*.tar
+
+.idea/
+.vSCode/
+*.iml
+.DS_Store
