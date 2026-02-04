@@ -1,4 +1,4 @@
-![CI](https://github.com/CrispinNi/enterprise-integration/actions/workflows/ci.yml/badge.svg)
+[![CI Pipeline](https://github.com/CrispinNi/enterprise-integration-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/CrispinNi/enterprise-integration-pipeline/actions/workflows/ci.yml)
 
 # 🚀 System Integration Pipeline
 
