@@ -23,4 +23,4 @@ jobs:
 
       - name: Run Python tests
         run: |
-          pytest analytics-consumer-service
+          pytest consumer-service
