@@ -15,7 +15,7 @@ def test_processes_valid_customer_event():
 
     channel = MagicMock()
 
-    with patch("requests.post") as mock_post:
+    with patch("consumer.session.post") as mock_post:
         callback(channel, method, None, body)
 
         mock_post.assert_called_once()
