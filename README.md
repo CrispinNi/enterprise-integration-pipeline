@@ -16,7 +16,7 @@ The system ingests customer and inventory data, publishes events via RabbitMQ, p
 
 ### 2️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/event-driven-analytics-pipeline.git
+git clone https://github.com/CrispinNi/enterprise-integration-pipeline.git
 cd event-driven-analytics-pipeline
 ```
 
