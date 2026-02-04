@@ -18,7 +18,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r consumer-service/requirements.txt
+          pip install -r consumers/consumer-service/requirements.txt
           pip install pytest
 
       - name: Run Python tests
