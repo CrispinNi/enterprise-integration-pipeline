@@ -1,3 +1,5 @@
+![CI](https://github.com/CrispinNi/enterprise-integration/actions/workflows/ci.yml/badge.svg)
+
 # 🚀 System Integration Pipeline
 
 ## 🧩 Overview
@@ -33,20 +35,29 @@ This will start:
  - Analytics API
 
 ### 4️⃣ Verify Services
-Service	Endpoint
+##### Health Service	Endpoint:
 
-CRM	http://localhost:8001/health
+ - CRM	http://localhost:8001/health
 
-Inventory	http://localhost:8002/health
+ - Inventory	http://localhost:8002/health
 
-Analytics API	http://localhost:8003/health
+ - Analytics API	http://localhost:8003/health
 
-RabbitMQ UI	http://localhost:15672
+ - RabbitMQ UI	http://localhost:15672
 
-RabbitMQ credentials
+##### RabbitMQ credentials
 
  - username: guest
  - password: guest
+
+##### Service Endpoint:
+
+ - CRM	http://localhost:8001/customers
+
+ - Inventory	http://localhost:8002/products
+
+ - Analytics API	http://localhost:8003/analytics/data
+ 
 
 ### 5️⃣ Trigger Events
 
@@ -66,27 +77,8 @@ The system was designed using an event-driven, asynchronous architecture to addr
 This architecture scales naturally by allowing producers and consumers to be horizontally scaled without code changes. As message volume increases, additional consumer instances can be added to process events in parallel. Failure scenarios are handled safely through message buffering, retries, idempotent processing, and explicit acknowledgements ensuring that messages are not lost or processed multiple times even during crashes or restarts.
 
 ### 🏗️ Architecture Diagram
-┌──────────────┐        ┌──────────────┐
-│ CRM Service  │        │ InventorySer │
-│ (SpringBoot) │        │ (SpringBoot) │
-└──────┬───────┘        └──────┬───────┘
-       │  Events (JSON)        │
-       └──────────┬───────────┘
-                  ▼
-          ┌─────────────────┐
-          │   RabbitMQ      │
-          │ Topic Exchange  │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ Python Consumer │
-          │     Engine      │
-          └────────┬────────┘
-                   ▼
-          ┌─────────────────┐
-          │ Analytics API   │
-          │ (FastAPI)       │
-          └─────────────────┘
+
+![ARCH](/images/Arch.png)
 
 
 ### ⚙️ Technologies Used
@@ -131,7 +123,7 @@ you will get the same also in your terminal
 Here is the image of the output comes from after testing the endpoint of analytics API in Postman.
 Endpoint:http://localhost:8003/analytics/data
 
-![Postman]()
+![Postman](/images/postman1.png)
 
 Remember this is POST Methos. So you have to provide JSON data, for example:
 ```JSON
